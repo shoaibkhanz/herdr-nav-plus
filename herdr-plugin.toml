@@ -1,0 +1,68 @@
+id = "herdr-nav-plus"
+name = "Herdr Nav Plus"
+version = "0.1.0"
+min_herdr_version = "0.7.0"
+description = "Ctrl+h/j/k/l navigation that flows past herdr panes into workspaces. Vim-aware; the vertical axis (Ctrl+j/Ctrl+k) walks the workspace sidebar and wraps at both ends."
+platforms = ["linux", "macos"]
+
+# Two families of actions:
+#
+#   left / down / up / right      — bind to the direct Ctrl chords. Preserves
+#                                    vim <-> pane behaviour, then on the vertical
+#                                    axis (down/up) walks the workspace list at
+#                                    the pane-grid edge, wrapping at both ends.
+#
+#   edge-*                        — same, but skip the Vim-forward step. The
+#                                    editor callback invokes these at a Vim split
+#                                    edge so the chord never bounces back into Vim.
+#
+# This plugin ships NO keybinding of its own — bind the actions in your
+# ~/.config/herdr/config.toml (see README) so the keys stay under your control.
+
+[[actions]]
+id = "left"
+title = "Navigate left (vim/pane)"
+contexts = ["global"]
+command = ["node", "navigate.js", "left"]
+
+[[actions]]
+id = "down"
+title = "Navigate down (vim/pane/workspace)"
+contexts = ["global"]
+command = ["node", "navigate.js", "down"]
+
+[[actions]]
+id = "up"
+title = "Navigate up (vim/pane/workspace)"
+contexts = ["global"]
+command = ["node", "navigate.js", "up"]
+
+[[actions]]
+id = "right"
+title = "Navigate right (vim/pane)"
+contexts = ["global"]
+command = ["node", "navigate.js", "right"]
+
+[[actions]]
+id = "edge-left"
+title = "Cross left from a Vim edge (pane)"
+contexts = ["global"]
+command = ["node", "navigate.js", "left", "--edge"]
+
+[[actions]]
+id = "edge-down"
+title = "Cross down from a Vim edge (pane/workspace)"
+contexts = ["global"]
+command = ["node", "navigate.js", "down", "--edge"]
+
+[[actions]]
+id = "edge-up"
+title = "Cross up from a Vim edge (pane/workspace)"
+contexts = ["global"]
+command = ["node", "navigate.js", "up", "--edge"]
+
+[[actions]]
+id = "edge-right"
+title = "Cross right from a Vim edge (pane)"
+contexts = ["global"]
+command = ["node", "navigate.js", "right", "--edge"]
