@@ -71,7 +71,7 @@ On each hop the plugin does two things so you always see where you landed:
 Requires **herdr `>= 0.7.0`** and **Node.js** on your `PATH`. Plain JavaScript,
 no dependencies, no build step.
 
-**From GitHub** (recommended once published):
+**From GitHub** (recommended):
 
 ```bash
 herdr plugin install shoaibkhanz/herdr-nav-plus
@@ -176,6 +176,11 @@ source /path/to/herdr-nav-plus/editor/vim.vim
 
 The `edge-*` actions skip the Vim-forward step, so the chord never bounces back
 into Vim.
+
+Both maps also work in the Herdr desktop app (`herdr-app`): there, at a
+split edge, it runs `herdr-app do pane.go` to focus the neighbouring pane (no
+workspace walk). The app's `nav-keys` mod, from
+[emergence](https://github.com/shoaibkhanz/emergence), hands the chord to the editor.
 
 ### Pass-through for other full-screen TUIs
 

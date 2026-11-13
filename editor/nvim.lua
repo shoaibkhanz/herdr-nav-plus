@@ -5,6 +5,10 @@
 -- crosses into the neighbouring herdr pane AND, on the vertical axis (j/k),
 -- keeps walking the workspace list (wrapping) at the pane-grid edge.
 --
+-- In the Herdr desktop app (herdr-app, $HC_TERMINAL_ID) the edge asks it to focus
+-- the neighbouring pane (`herdr-app do pane.go`); its nav-keys mod hands the
+-- chord to Neovim in the first place.
+--
 -- Load only ONE herdr navigation editor map. The simplest reliable install is
 -- after/plugin so it wins over other <C-h/j/k/l> maps (e.g. vim-tmux-navigator):
 --   cp editor/nvim.lua ~/.config/nvim/after/plugin/herdr_nav.lua
@@ -13,7 +17,9 @@
 local PLUGIN = "herdr-nav-plus"
 
 local function cross(dir)
-  if vim.env.HERDR_PANE_ID and vim.env.HERDR_PANE_ID ~= "" then
+  if vim.env.HC_TERMINAL_ID and vim.env.HC_TERMINAL_ID ~= "" then
+    vim.fn.system({ "herdr-app", "do", "pane.go", "--direction", dir })
+  elseif vim.env.HERDR_PANE_ID and vim.env.HERDR_PANE_ID ~= "" then
     local herdr = vim.env.HERDR_BIN_PATH
     if herdr == nil or herdr == "" then
       herdr = "herdr"

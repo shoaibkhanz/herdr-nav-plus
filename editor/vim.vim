@@ -7,13 +7,21 @@
 " Load only ONE herdr navigation editor map. From your vimrc:
 "   source /path/to/herdr-nav-plus/editor/vim.vim
 "
-" Only active inside a herdr pane (guards on $HERDR_PANE_ID).
+" In the Herdr desktop app (herdr-app, $HC_TERMINAL_ID) the edge asks it to focus
+" the neighbouring pane (`herdr-app do pane.go`); its nav-keys mod hands the
+" chord to Vim in the first place.
+"
+" Only active inside a herdr pane (guards on $HERDR_PANE_ID or $HC_TERMINAL_ID).
 
-if empty($HERDR_PANE_ID)
+if empty($HERDR_PANE_ID) && empty($HC_TERMINAL_ID)
   finish
 endif
 
 function! s:Cross(dir) abort
+  if !empty($HC_TERMINAL_ID)
+    call system('herdr-app do pane.go --direction ' . a:dir)
+    return
+  endif
   let l:herdr = empty($HERDR_BIN_PATH) ? 'herdr' : $HERDR_BIN_PATH
   " edge-* actions skip the Vim-forward step, so this never bounces back to Vim.
   call system(shellescape(l:herdr) . ' plugin action invoke edge-' . a:dir . ' --plugin herdr-nav-plus')
